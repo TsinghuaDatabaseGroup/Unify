@@ -1,0 +1,420 @@
+[
+    {
+        "id":"example_1",
+        "query": {
+            "original": "What is the number of documents related to Football?",
+            "parsed": "What is the number of documents related to [Condition]?"
+        },
+        "BQ": {
+            "question": "How many documents are related to [Condition]?",
+            "return": "[Number]"
+        },
+        "judgment": {
+            "fully_solved": true,
+            "partially_solved": false,
+            "transformed_original_query": "Number",
+            "sub_problems": "No",
+            "transformed_parsed_query": "[Number]"
+        },
+        "explanation": "The BQ directly answers the original query by providing the count specified."
+    },
+    {
+        "id":"example_2",
+        "query": {
+            "original": "Which type of sports is discussed most frequently between sports that need teamwork and sports that do not need teamwork?",
+            "parsed": "Which type of [Entity] is discussed most frequently between [Entity] that [Condition] and [Entity] that [Condition]?"
+        },
+        "BQ": {
+            "question": "Which type of [Entity] is most discussed between [Entity] that [Condition] and [Entity] that [Condition]?",
+            "return": "[Entity]"
+        },
+        "judgment": {
+            "fully_solved": true,
+            "partially_solved": false,
+            "transformed_original_query": "A sport",
+            "sub_problems": "No",
+            "transformed_parsed_query": "[Entity]"
+        },
+        "explanation": "The BQ directly compares the entities based on the criteria and returns the resulting entity."
+    },
+    {
+        "id":"example_3",
+        "query": {
+            "original": "How many documents satisfy related to AI are also about database?",
+            "parsed": "How many documents satisfy [Condition] are [Condition]?"
+        },
+        "BQ": {
+            "question": "Documents satisfy [Condition]",
+            "return": "documents"
+        },
+        "judgment": {
+            "fully_solved": false,
+            "partially_solved": true,
+            "transformed_original_query": "sub_problems",
+            "sub_problems": [
+                "Documents satisfy related to AI", "How many documents are about database?"
+            ],
+            "transformed_parsed_query": ["Documents satisfy [Condition]", "How many documents are [Condition]?"]
+        },
+        "explanation": "The BQ filters documents based on the first condition ('related to AI'), reducing the problem. The remaining task is to count the documents in the filtered set that match the second condition ('about database'). This requires sub-problems."
+    },
+    {
+        "id": "example_4",
+        "query": {
+            "original": "For documents related to swimming, count the number of answers",
+            "parsed": "For documents [Condition], count the number of [Entity]"
+        },
+        "BQ": {
+            "question": "How many documents are [Condition]",
+            "return": "[Number]"
+        },
+        "judgment": {
+            "fully_solved": false,
+            "partially_solved": false,
+            "transformed_original_query": "No",
+            "sub_problems": "No",
+            "transformed_parsed_query": "No"
+        },
+        "explanation": "The original query asks to count a specific entity ('answers') within a filtered set ('related to swimming'). The BQ only counts the documents in the filtered set, it doesn't count the target entity within those documents."
+    },
+    {
+        "id": "example_5",
+        "query": {
+            "original": "Count the number of documents that satisfy related to database and also satisfy related to AI.",
+            "parsed": "Count the number of documents that satisfy [Condition] and also satisfy [Condition]."
+        },
+        "BQ": {
+            "question": "Count the number of documents that satisfy [Condition]",
+            "return": "Dict"
+        },
+        "judgment": {
+            "fully_solved": false,
+            "partially_solved": true,
+            "transformed_original_query": "sub_problems",
+            "sub_problems": [
+                "Documents satisfy related to database",
+                "Count the number of documents that satisfy related to AI"
+            ],
+            "transformed_parsed_query": [
+                "Documents satisfy [Condition]",
+                "Count the number of documents that satisfy [Condition]"
+            ]
+        },
+        "explanation": "When counting documents that satisfy multiple conditions (e.g., n conditions), the process should be: 1. Extract each condition one by one using 'Documents satisfy [Condition]' for the first n-1 conditions to filter the document set step-by-step. 2. Apply 'Count the number of documents that satisfy [Condition]' only to the last condition, when all previous conditions have been filtered. In this example, 'Count the number of documents that satisfy [Condition]' cannot fully solve the query because it only handles one condition, while the query has two conditions, this is a partial solution, hence 'partially_solved' with sub-problems."
+    },
+    {
+        "id": "example_6",
+        "query": {
+            "original": "Count the number of documents that satisfy related to database and also satisfy related to AI.",
+            "parsed": "Count the number of documents that satisfy [Condition] and also satisfy [Condition]."
+        },
+        "BQ": {
+            "question": "Documents with [Condition]",
+            "return": "documents"
+        },
+        "judgment": {
+            "fully_solved": false,
+            "partially_solved": true,
+            "transformed_original_query": "sub_problems",
+            "sub_problems": [
+                "Documents satisfy related to database",
+                "Count the number of documents that satisfy related to AI"
+            ],
+            "transformed_parsed_query": [
+                "Documents satisfy [Condition]",
+                "Count the number of documents that satisfy [Condition]"
+            ]
+        },
+        "explanation": "'Documents satisfy [Condition]' is used to filter the first condition ('related to database'), reducing the problem into a sub-problem where the remaining condition ('related to AI') can then be counted. This is a partial solution, hence 'partially_solved' with sub-problems."
+    },
+    {
+        "id": "example_7",
+        "query": {
+            "original": "Compare the number of documents related to boxing and swimming among documents with views larger than 10000; return the sport with the smaller count.",
+            "parsed": "Compare the number of documents related to [Entity] and [Entity] among documents with [Condition]; return the sport with the smaller count."
+        },
+        "BQ": {
+            "question": "Documents with [Condition]",
+            "return": "documents"
+        },
+        "judgment": {
+            "fully_solved": false,
+            "partially_solved": true,
+            "transformed_original_query": "sub_problems",
+            "sub_problems": [
+                "Documents with views larger than 10000",
+                "Count the number of documents related to boxing",
+                "Count the number of documents related to swimming",
+                "Which is smaller between the number of documents related to boxing and the number of documents related to swimming?"
+            ],
+            "transformed_parsed_query": [
+                "Documents with [Condition]",
+                "Count the number of documents related to [Entity]",
+                "Count the number of documents related to [Entity]",
+                "Which is smaller between the number of documents related to [Entity] and the number of documents related to [Entity]?"
+            ]
+        },
+        "explanation": "When a query involves filtering documents with a condition and then comparing counts of entities, the process should first filter using 'Documents with [Condition]'. This BQ correctly filters the documents based on the condition ('views larger than 10000'), reducing the query to the comparison task on the filtered set.And then when comparing counts without initial filtering, the process must be broken down. This BQ ('Count...') sets up the necessary sub-problems: first count documents for each entity ('boxing', 'swimming'), then compare the results. It's a partial solution."
+    },
+    {
+        "id": "example_8",
+        "query": {
+            "original": "Compare the number of documents related to boxing and swimming among documents with views larger than 10000; return the sport with the smaller count.",
+            "parsed": "Compare the number of documents related to [Entity] and [Entity] among documents with [Condition]; return the sport with the smaller count."
+        },
+        "BQ": {
+            "question": "Count the number of documents that satisfy [Condition]",
+            "return": "Dict"
+        },
+        "judgment": {
+            "fully_solved": false,
+            "partially_solved": false,
+            "transformed_original_query": "No",
+            "sub_problems": "No",
+            "transformed_parsed_query": "No"
+        },
+        "explanation": "'Count the number of documents that satisfy [Condition]' is insufficient here. It doesn't perform the required initial filtering ('views larger than 10000') needed before counting specific entities and comparing."
+    },
+    {
+        "id": "example_9",
+        "query": {
+            "original": "Compare the number of documents related to boxing and swimming; return the sport with the smaller count.",
+            "parsed": "Compare the number of documents related to [Entity] and [Entity]; return the sport with the smaller count."
+        },
+        "BQ": {
+            "question": "Which is smaller between [Entity] with [Number] and [Entity] with [Number]?",
+            "return": "[Entity]"
+        },
+        "judgment": {
+            "fully_solved": false,
+            "partially_solved": false,
+            "transformed_original_query": "No",
+            "sub_problems": "No",
+            "transformed_parsed_query": "No"
+        },
+        "explanation": "The BQ performs the comparison ('Which is smaller...'), but the necessary inputs (the counts for 'boxing' and 'swimming') have not been computed yet. This BQ cannot be applied until the counts are available."
+    },
+    {
+        "id": "example_10",
+        "query": {
+            "original": "Which is smaller between the number of documents related to boxing and the number of documents related to swimming?",
+            "parsed": "Which is smaller between the number of documents related to [Entity] and the number of documents related to [Entity]?"
+        },
+        "BQ": {
+            "question": "Which is larger between [Entity] with [Number] and [Entity] with [Number]?",
+            "return": "[Entity]"
+        },
+        "judgment": {
+            "fully_solved": false,
+            "partially_solved": false,
+            "transformed_original_query": "No",
+            "sub_problems": "No",
+            "transformed_parsed_query": "No"
+        },
+        "explanation": "The query asks for 'smaller', but the BQ provides 'larger'. The comparison directions do not match, so the BQ cannot solve the query."
+    },
+    {
+        "id":"example_11",
+        "query": {
+            "original": "From documents with over 10,000 views, identify the ball sport with the highest ratio of injury-related to training-related documents.",
+            "parsed": "From documents with [Condition] identify the [Entity] with the highest ratio of [Condition] to [Condition] documents."
+        },
+        "BQ": {
+            "question": "Documents with [Condition]",
+            "return": "documents"
+        },
+        "judgment": {
+            "fully_solved": false,
+            "partially_solved": true,
+            "transformed_original_query": "sub_problems",
+            "sub_problems": [
+                "Documents with over 10,000 views",
+                "Group documents by ball sport",
+                "From the grouped documents, calculate the ratio of injury-related to training-related documents for each ball sport",
+                "Which ball sport has the highest ratio of injury-related to training-related documents?"
+            ],
+            "transformed_parsed_query": [
+                "Documents with [Condition]",
+                "Group documents by [Entity]",
+                "From the grouped documents, calculate the ratio of [Condition] to [Condition] documents for each [Entity]",
+                "Which [Entity] has the highest ratio of [Condition] to [Condition] documents?"
+            ]
+        },
+        "explanation": "The BQ filters documents based on the initial condition ('over 10,000 views'). This is a necessary first step for the complex query but doesn't solve it entirely. It partially solves the query by providing the filtered document set, leading to subsequent sub-problems for grouping, ratio calculation, and comparison."
+    },
+    {
+        "id":"example_12",
+        "query": {
+            "original": "Which ball sport has the highest ratio of injury-related to training-related documents?",
+            "parsed": "Which [Entity] has the highest ratio of [Condition] to [Condition] documents?"
+        },
+        "BQ": {
+            "question": "Which [Entity] has the highest ratio?",
+            "return": "[Entity]"
+        },
+        "judgment": {
+            "fully_solved": true,
+            "partially_solved": false,
+            "transformed_original_query": "Entity",
+            "sub_problems": "No",
+            "transformed_parsed_query": "[Entity]"
+        },
+        "explanation": "The BQ directly compares the entities based on the criteria and returns the resulting entity."
+    },
+    {
+        "id":"example_13",
+        "query": {
+            "original": "From documents with over 10,000 views, identify the ball sport with the highest ratio of injury-related to training-related documents.",
+            "parsed": "From documents with [Condition] identify the [Entity] with the highest ratio of [Condition] to [Condition] documents."
+        },
+        "BQ": {
+            "question": "Which [Entity] has the highest ratio?",
+            "return": "[Entity]"
+        },
+        "judgment": {
+            "fully_solved": false,
+            "partially_solved": true,
+            "transformed_original_query": "sub_problems",
+            "sub_problems": [
+                "Documents with over 10,000 views",
+                "Group documents by ball sport",
+                "From the grouped documents, calculate the ratio of injury-related to training-related documents for each ball sport",
+                "Which ball sport has the highest ratio of injury-related to training-related documents?"
+            ],
+            "transformed_parsed_query": [
+                "Documents with [Condition]",
+                "Group documents by [Entity]",
+                "From the grouped documents, calculate the ratio of [Condition] to [Condition] documents for each [Entity]",
+                "Which [Entity] has the highest ratio of [Condition] to [Condition] documents?"
+            ]
+        },
+        "explanation": "The BQ can't solve the question fully, but it can solve part of it. Therefore, we need to consider how this query should be decomposed and at which step this BQ should be placed. This is a common approach to analyzing complex queries. First of all, this query should be filtered first, leading to subsequent sub-problems for grouping, ratio calculation, and comparison."
+    },
+    {
+        "id":"example_14",
+        "query": {
+            "original": "Count the number of documents related to baseball",
+            "parsed": "Count the number of documents related to [Entity]"
+        },
+        "BQ": {
+            "question": "Documents contain [Entity]",
+            "return": "documents"
+        },
+        "judgment": {
+            "fully_solved": false,
+            "partially_solved": false,
+            "transformed_original_query": "No",
+            "sub_problems": "No",
+            "transformed_parsed_query": "No"
+        },
+        "explanation": "The BQ can't solve the question because it doesn't provide a count. It only filters documents containing the entity ('baseball'). The BQ should be 'Count the number of documents that satisfy [Condition]' or 'Count the number of documents that contain [Entity]'."
+    },
+    {
+        "id":"example_15",
+        "query": {
+            "original": "Count the number of documents related to baseball",
+            "parsed": "Count the number of documents related to [Entity]"
+        },
+        "BQ": {
+            "question": "Count the number of documents that satisfy [Condition]",
+            "return": "Dict"
+        },
+        "judgment": {
+            "fully_solved": true,
+            "partially_solved": false,
+            "transformed_original_query": "Dict",
+            "sub_problems": "No",
+            "transformed_parsed_query": "[Dictionary]"
+        },
+        "explanation": "The BQ directly answers the original query by providing the count specified."
+    },
+    {
+        "id": "example_16",
+        "query": {
+            "original": "Which is smaller between the number of documents related to boxing and the number of documents related to swimming?",
+            "parsed": "Which is smaller between the number of documents related to [Entity] and the number of documents related to [Entity]?"
+        },
+        "BQ": {
+            "question": "Which is smaller between [Entity] with [Number] and [Entity] with [Number]?",
+            "return": "[Entity]"
+        },
+        "judgment": {
+            "fully_solved": true,
+            "partially_solved": false,
+            "transformed_original_query": "Entity",
+            "sub_problems": "No",
+            "transformed_parsed_query": "[Entity]"
+        },
+        "explanation": "The query asks for 'smaller', and the BQ is exactly the one that compares the minimum value between two entities and returns the smaller one, thus can solve this query fully."
+    },
+    {
+        "id": "example_17",
+        "query": {
+            "original": "From documents related to 'Running,' 'Cycling,' and 'training,' check if the count of documents satisfying all conditions is greater than 5.",
+            "parsed": "From documents related to '[Entity],' '[Entity],' and '[Entity],' check if the count of documents satisfying all conditions is greater than 5."
+        },
+        "BQ": {
+            "question": "Count the number of documents that satisfy [Condition]",
+            "return": "Dict"
+        },
+        "judgment": {
+            "fully_solved": false,
+            "partially_solved": true,
+            "transformed_original_query": "sub_problems",
+            "sub_problems": [
+                "Documents related to running", 
+                "Documents related to cycling", 
+                "Documents related to training", 
+                "Count the number of documents satisfying all conditions", 
+                "Is the count of documents greater than 5?"
+            ],
+            "transformed_parsed_query": [
+                "Documents [Condition]",
+                "Documents [Condition]",
+                "Documents [Condition]",
+                "Count the number of documents that satisfy all conditions",
+                "Is the count of documents greater than [Number]?"
+            ]
+        },
+        "explanation": "The BQ filters documents based on the first condition ('related to Running'), reducing the problem into a sub-problem where the remaining conditions ('related to Cycling' and 'related to training') can then be counted. This is a partial solution, hence 'partially_solved' with sub-problems."
+    },
+    {
+        "id":"example_18",
+        "query": {
+            "original": "Documents satisfy related to baseball",
+            "parsed": "Documents satisfy related to [Entity]"
+        },
+        "BQ": {
+            "question": "Documents with [Condition]",
+            "return": "documents"
+        },
+        "judgment": {
+            "fully_solved": true,
+            "partially_solved": false,
+            "transformed_original_query": "documents",
+            "sub_problems": "No",
+            "transformed_parsed_query": "[documents]"
+        },
+        "explanation": "The BQ directly answers the original query by providing the documents satisfied."
+    },
+    {
+        "id":"example_19",
+        "query": {
+            "original": "Count the number of documents satisfying all conditions",
+            "parsed": "Count the number of documents satisfying all conditions"
+        },
+        "BQ": {
+            "question": "Count the number of documents",
+            "return": "[Number]"
+        },
+        "judgment": {
+            "fully_solved": true,
+            "partially_solved": false,
+            "transformed_original_query": "Number",
+            "sub_problems": "No",
+            "transformed_parsed_query": "[Number]"
+        },
+        "explanation": "The BQ directly answers the original query by providing the count specified. But it can only be used when the condition in the original query is empty. If there are conditions in the original query, it cannot be used."
+    }
+    
+]

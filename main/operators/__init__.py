@@ -1,0 +1,1 @@
+from .operatorMap import getOPimpl
