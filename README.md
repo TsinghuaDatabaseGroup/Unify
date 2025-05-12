@@ -183,7 +183,7 @@ Here, we give a brief demonstration:
 <a href="https://github.com/TsinghuaDatabaseGroup/Unify/network/dependencies">
   <img src="https://contrib.rocks/image?repo=TsinghuaDatabaseGroup/Unify" />
 </a>
-
+<a href=“https://dbgroup.cs.tsinghua.edu.cn/ligl/”>Guoliang Li</a>
 
 ## 📌 Citation
 Feel free to cite us if you like this project.
