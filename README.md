@@ -173,34 +173,26 @@ We are constructing an online demo, and it will be released in the near future. 
 Here, we give a brief demonstration:
 
 
+- **1. Data Management**
+<p align="center">
+  <img src="./images/data_management.jpg" style="width: 400px; object-fit: contain;">
+</p>
 
-- **1. System Configuration**
+- **2. Model Management**
+<p align="center">
+  <img src="./images/model_management.jpg" style="width: 400px; object-fit: contain;">
+</p>
 
-<div style="display: flex; justify-content: space-between; align-items: stretch;">
-  <div style="text-align: center; flex: 1;">
-    <img src="./images/data_management.jpg" style="height: 100%; width: 100%; object-fit: contain;">
-    <p>Data Management</p>
-  </div>
-  <div style="text-align: center; flex: 1;">
-    <img src="./images/model_management.jpg" style="height: 100%; width: 100%; object-fit: contain;">
-    <p>Model Management</p>
-  </div>
-</div>
+- **3. An example plan generation process**
+<p align="center">
+  <img src="./images/orchestrate_plan.jpg" style="width: 400px; object-fit: contain;">
+</p>
 
+- **4. An example plan execution process**
+<p align="center">
+  <img src="./images/plan_execution_example.jpg" style="width: 400px; object-fit: contain;">
+</p>
 
-- **2. An example plan generation and execution process in Unify**
-
-
-<div style="display: flex; justify-content: space-between; align-items: stretch;">
-  <div style="text-align: center; flex: 1;">
-    <img src="./images/orchestrate_plan.jpg" style="height: 100%; width: 100%; object-fit: contain;">
-    <p>An example plan generation process</p>
-  </div>
-  <div style="text-align: center; flex: 1;">
-    <img src="./images/plan_execution_example.jpg" style="height: 100%; width: 100%; object-fit: contain;">
-    <p>An example plan execution process</p>
-  </div>
-</div>
 
 
 
