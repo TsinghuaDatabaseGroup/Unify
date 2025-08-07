@@ -1,4 +1,4 @@
-# 📰 Unify
+# 📰 Unify: A System for Unstructured Data Analytics
 
 <p align="center">
   <b>📃 This is the prototype implementation of the Unify system. 🎈</b>
@@ -21,6 +21,16 @@
   </a>
   <h3 align="center">An Unstructured Data Analytics System</h3>
 
+
+
+Unify processes natural language data analytics queries over unstructured documents leveraging LLMs.
+It **systematically breaks down queries into manageable sub-queries, matching them with predefined operators to produce accurate results efficiently**.
+
+Unify utilizes large language models (LLMs) to automatically ***generate, optimize, and execute*** queries written in natural language. 
+The system decomposes queries into smaller steps, identifies the most relevant operators, and optimizes execution plans using a semantic cost model.
+The plan will the be executed efficiently to obtain the final results.
+
+
 ## 📖 Contents
 
 - [📰 Unify](#-unify)
@@ -29,6 +39,7 @@
   - [🚀 Quick Start](#-quick-start)
     - [⚙ Environment Setup](#-environment-setup)
     - [🛠 Run the Query Answering Process](#-run-the-query-answering-process)
+  - [📜 Architecture of Unify](#-architecture-of-unify)
   - [🖥 Demo](#-demo)
   - [📝 Todo](#-todo)
   - [✨ Contributors](#-contributors)
@@ -145,31 +156,54 @@ $ python unify.py --llm_model_path /path/to/llm --tokenizer_path /path/to/tokeni
 $ bash run.sh
 ```
 
+
+## 📜 Architecture of Unify
+
+<p align="center">
+<img src="./images/architecture.jpg" width="400" align="center">
+</p>
+
+As shown in the architecture figure, Unify consists of the following modules: operator management, index construction, logical plan generation, physical plan optimization and interactive plan execution. 
+Unify generates logical plans to ensure correct reasoning, transforms logical plans into optimized physical plans for efficiency and executes the plans to compute the final results.
+
 ## 🖥 Demo
 
 We are constructing an online demo, and it will be released in the near future. If you want to debug the front end by yourself, you can refer to branch [demo](https://github.com/TsinghuaDatabaseGroup/Unify/tree/demo) (We will update the upload soon).
 
 Here, we give a brief demonstration:
 
-- **1. System Homepage**
 
-![img](./images/chat.png)
 
-- **2. Document collection selection**
+- **1. System Configuration**
 
-![img](./images/chat_dataset.png)
-![img](./images/chat_dataconfig.png)
+<div style="display: flex; justify-content: space-between;">
+  <div style="text-align: center;">
+    <img src="./images/data_management.jpg" height="300" />
+    <p>Data Management</p>
+  </div>
+  <div style="text-align: center;">
+    <img src="./images/model_management.jpg" height="300" />
+    <p>Model Management</p>
+  </div>
+</div>
 
-- **3. LLM Model and Embedding model config**
 
-![img](./images/chat_config.png)
-![img](./images/chat_config_embedding.png)
+- **2. An example plan generation and execution process in Unify**
 
-- **4. Chat page**
 
-![img](./images/chat_query.png)
-![img](./images/chat_log1.png)
-![img](./images/chat_log2.png)
+<div style="display: flex; justify-content: space-between;">
+  <div style="text-align: center;">
+  <img src="./images/orchestrate_plan.jpg" height="600">
+  <p>An example plan generation process</p>
+  </div>
+  <div style="text-align: center;">
+    <img src="./images/plan_execution_example.jpg" height="600" />
+    <p>An example plan execution process</p>
+  </div>
+</div>
+
+
+
 
 
 ## 📝 Todo
@@ -184,12 +218,22 @@ Here, we give a brief demonstration:
   <img src="https://contrib.rocks/image?repo=TsinghuaDatabaseGroup/Unify" /> -->
 </a>
 
-<a href="https://dbgroup.cs.tsinghua.edu.cn/ligl/">Guoliang Li</a>
+<a href="https://dbgroup.cs.tsinghua.edu.cn/ligl/">Guoliang Li</a>, 
+<a href="https://for0nething.github.io/">Jiayi Wang</a>, 
+<a href="https://github.com/Macly-DB">Yuan Li</a>
 
 ## 📌 Citation
 Feel free to cite us if you like this project.
 
-<i>TODO: Add open source license</i>
+```bibtex
+@inproceedings{wang2025unify,
+  title={Unify: An unstructured data analytics system},
+  author={Wang, Jiayi and Feng, Jianhua},
+  booktitle={2025 IEEE 41st International Conference on Data Engineering (ICDE)},
+  year={2025},
+}
+```
+
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details
 
